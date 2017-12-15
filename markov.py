@@ -17,7 +17,7 @@ class Markov:
         self.state, *_ = choices(
             *zip(*(sum(self.corpus.values(), Counter()).items())))
         if self.state == '.':
-            _ = next(self)
+            next(self)
 
     def __iter__(self):
         return self

@@ -26,3 +26,23 @@ class Markov:
         curr_state = self.state
         self.state, *_ = choices(*zip(*self.corpus[self.state].items()))
         return curr_state
+
+    def get_sentences(self, n=1):
+        return ' '.join(Markov._merge_periods(self._yield_sentences(n)))
+
+    def _yield_sentences(self, n):
+        while n:
+            state = next(self)
+            if state == '.':
+                n -= 1
+            yield state
+
+    @staticmethod
+    def _merge_periods(iterable):
+        out = []
+        for word in iterable:
+            if word == '.' and out:
+                out[-1] += '.'
+            else:
+                out.append(word)
+        return out
